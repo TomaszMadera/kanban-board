@@ -1,12 +1,9 @@
 <?php
+
 namespace KanbanBoard;
 
-use Github\Client;
-use vierbergenlars\SemVer\version;
-
-use vierbergenlars\SemVer\expression;
-use vierbergenlars\SemVer\SemVerException;
-use \Michelf\Markdown;
+use KanbanBoard\Helpers\Utilities;
+use Michelf\Markdown;
 
 class Application {
 
@@ -45,7 +42,7 @@ class Application {
 				);
 			}
 		}
-		return $milestones;
+		return $milestones ?? [];
 	}
 
 	private function issues($repository, $milestone_id)

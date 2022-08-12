@@ -1,6 +1,12 @@
 <?php
 
-class GithubClient
+namespace KanbanBoard\Controllers;
+
+use Github\AuthMethod;
+use Github\Client as GithubClient;
+use GuzzleHttp\Client as GuzzleHttpClient;
+
+class Github
 {
     private $client;
     private $milestone_api;
@@ -8,10 +14,9 @@ class GithubClient
 
     public function __construct($token, $account)
     {
-        require '../../vendor/autoload.php';
         $this->account = $account;
-        $this->client= new \Github\Client(new \Github\HttpClient\CachedHttpClient(array('cache_dir' => '/tmp/github-api-cache')));
-        $this->client->authenticate($token, \Github\Client::AUTH_HTTP_TOKEN);
+        $this->client = new GithubClient();
+        $this->client->authenticate($token, getenv('GH_CLIENT_SECRET'), AuthMethod::ACCESS_TOKEN);
         $this->milestone_api = $this->client->api('issues')->milestones();
     }
 

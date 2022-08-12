@@ -2,6 +2,7 @@
 
 namespace KanbanBoard;
 
+use KanbanBoard\Helpers\Utilities;
 use Michelf\Markdown;
 
 class Application {
@@ -41,7 +42,7 @@ class Application {
 				);
 			}
 		}
-		return $milestones;
+		return $milestones ?? [];
 	}
 
 	private function issues($repository, $milestone_id)

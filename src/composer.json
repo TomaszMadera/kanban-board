@@ -5,11 +5,14 @@
 		}
 	},
 	"require": {
+		"php": "^8.0",
+		"guzzlehttp/guzzle": "^7.2.5",
 		"mustache/mustache": "^2.9",
 		"vierbergenlars/php-semver": "^3.0",
-		"knplabs/github-api": "^1.5",
+		"knplabs/github-api": "^3.8",
 		"michelf/php-markdown": "^1.6",
-		"phpunit/phpunit": "5.0.*"
+		"phpunit/phpunit": "5.0.*",
+		"http-interop/http-factory-guzzle": "^1.0"
 	},
 	"minimum-stability": "dev"
 }

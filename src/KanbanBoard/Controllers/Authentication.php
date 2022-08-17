@@ -2,17 +2,18 @@
 
 namespace KanbanBoard\Controllers;
 
-use KanbanBoard\Helpers\Utilities;
+use KanbanBoard\Helpers\ArrayHelper;
+use KanbanBoard\Helpers\EnvironmentHelper;
 
 class Authentication {
 
-	private $client_id = NULL;
-	private $client_secret = NULL;
+	private $client_id;
+	private $client_secret;
 
 	public function __construct()
 	{
-		$this->client_id = Utilities::env('GH_CLIENT_ID');
-		$this->client_secret = Utilities::env('GH_CLIENT_SECRET');
+		$this->client_id = EnvironmentHelper::get('GH_CLIENT_ID');
+		$this->client_secret = EnvironmentHelper::get('GH_CLIENT_SECRET');
 	}
 
 	public function logout()
@@ -27,8 +28,8 @@ class Authentication {
 		if(array_key_exists('gh-token', $_SESSION)) {
 			$token = $_SESSION['gh-token'];
 		}
-		else if(Utilities::hasValue($_GET, 'code')
-			&& Utilities::hasValue($_GET, 'state')
+		else if(ArrayHelper::hasValue($_GET, 'code')
+			&& ArrayHelper::hasValue($_GET, 'state')
 			&& $_SESSION['redirected'])
 		{
 			$_SESSION['redirected'] = false;

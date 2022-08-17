@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
+require '../vendor/autoload.php';
 
 use Dotenv\Dotenv;
 use KanbanBoard\Application;
@@ -8,7 +8,7 @@ use KanbanBoard\Controllers\Authentication;
 use KanbanBoard\Controllers\Github;
 use KanbanBoard\Helpers\EnvironmentHelper;
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv = Dotenv::createImmutable('../');
 $dotenv->safeLoad();
 
 $repositories = explode('|', EnvironmentHelper::get('GH_REPOSITORIES'));

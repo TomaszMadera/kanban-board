@@ -4,7 +4,7 @@ namespace KanbanBoard\Controllers;
 
 use Github\AuthMethod;
 use Github\Client as GithubClient;
-use GuzzleHttp\Client as GuzzleHttpClient;
+use KanbanBoard\Helpers\EnvironmentHelper;
 
 class Github
 {
@@ -16,7 +16,11 @@ class Github
     {
         $this->account = $account;
         $this->client = new GithubClient();
-        $this->client->authenticate($token, getenv('GH_CLIENT_SECRET'), AuthMethod::ACCESS_TOKEN);
+        $this->client->authenticate(
+            $token,
+            EnvironmentHelper::get('GH_CLIENT_SECRET'),
+            AuthMethod::ACCESS_TOKEN
+        );
         $this->milestone_api = $this->client->api('issues')->milestones();
     }
 

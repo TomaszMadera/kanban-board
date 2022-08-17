@@ -10,7 +10,7 @@ final class EnvironmentHelper
 
     public static function get(string $name, $default = null)
     {
-        $value = getenv($name);
+        $value = $_ENV[$name];
 
         if (empty($value)) {
             if (!is_null($default)) {

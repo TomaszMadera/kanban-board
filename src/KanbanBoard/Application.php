@@ -50,12 +50,14 @@ class Application
      */
     private function initEnvironmentVars(): void
     {
-        $dotenv = Dotenv::createImmutable($this->rootPath);
+        if (!isset($_ENV['APP_HEROKU']) || !$_ENV['APP_HEROKU']) {
+            $dotenv = Dotenv::createImmutable($this->rootPath);
 
-        try {
-            $dotenv->load();
-        } catch (InvalidPathException $e) {
-            DebugHelper::printThrowable($e);
+            try {
+                $dotenv->load();
+            } catch (InvalidPathException $e) {
+                DebugHelper::printThrowable($e);
+            }
         }
     }
 

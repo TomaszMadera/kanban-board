@@ -3,6 +3,8 @@
 namespace KanbanBoard\Helpers;
 
 use JetBrains\PhpStorm\NoReturn;
+use KanbanBoard\Application;
+use KanbanBoard\Logger;
 use Throwable;
 
 final class DebugHelper
@@ -38,8 +40,12 @@ final class DebugHelper
      */
     #[NoReturn] public static function printThrowable(Throwable $e): void
     {
+        $message = "Exception thrown in {$e->getFile()}, line {$e->getLine()}: {$e->getMessage()}";
+
+        (Logger::getInstance())->debug($message);
+
         if (isset($_ENV['DEBUG']) && $_ENV['DEBUG']) {
-            die("Exception thrown in {$e->getFile()}, line {$e->getLine()}: {$e->getMessage()}");
+            die($message);
         } else {
             die();
         }
@@ -54,6 +60,8 @@ final class DebugHelper
      */
     #[NoReturn] public static function die(string $message): void
     {
+        (Logger::getInstance())->debug($message);
+
         if (isset($_ENV['DEBUG']) && $_ENV['DEBUG']) {
             die($message);
         } else {

@@ -14,7 +14,8 @@
 		"phpunit/phpunit": "5.0.*",
 		"http-interop/http-factory-guzzle": "^1.0",
 		"vlucas/phpdotenv": "5.4.x-dev",
-		"cache/filesystem-adapter": "^1.2"
+		"cache/filesystem-adapter": "^1.2",
+		"monolog/monolog": "3.x-dev"
 	},
 	"minimum-stability": "dev"
 }

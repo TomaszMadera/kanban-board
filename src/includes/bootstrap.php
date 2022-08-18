@@ -1,18 +1,13 @@
 <?php
 
-use Dotenv\Dotenv;
 use KanbanBoard\Application;
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
 
 $root = __DIR__ . '/../';
-$dotenv = Dotenv::createImmutable($root);
-$dotenv->safeLoad();
 
-$filesystemAdapter = new Local($root);
-$filesystem        = new Filesystem($filesystemAdapter);
+/* Init router and request */
+$router = require_once $root . 'includes/routes.php';
 
-$router = require_once __DIR__ . '/../includes/routes.php';
-$app    = new Application($router, $filesystem);
+/* Init application */
+$app    = new Application($root, $router);
 
 return $app;

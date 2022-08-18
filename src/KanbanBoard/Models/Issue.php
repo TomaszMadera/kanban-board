@@ -12,31 +12,45 @@ class Issue
     private string $title;
     private string $body;
     private string $html_url;
+    private string $state;
     private ?array $assignee;
     private ?array $labels;
-    private string $closed_at;
-    private string $state;
+    private ?string $closed_at;
 
     public function __construct(array $issueArgs)
     {
+        /* Simple model construct from given array args. */
         foreach ($issueArgs as $arg => $value) {
             $this->{$arg} = $value;
         }
     }
 
+    /**
+     * Checks issue state and assignee and returns custom status.
+     *
+     * @return string
+     */
     public function getState(): string
     {
         if ($this->state === 'closed') {
-            return 'completed';
+            $state = 'completed';
         } else {
-            if (isset($this->assignee) && count($this->assignee) > 0) {
-                return 'active';
+            if (isset($this->assignees) && count($this->assignees) > 0) {
+                $state = 'active';
             } else {
-                return 'queued';
+                $state = 'queued';
             }
         }
+
+        return $state;
     }
 
+    /**
+     * Checks if issue has assigned one of paused labels.
+     * If yes, returns array of matching paused labels.
+     *
+     * @return array
+     */
     public function isPaused(): array
     {
         if (isset($this->labels)) {
@@ -52,6 +66,11 @@ class Issue
         return [];
     }
 
+    /**
+     * Parses issue to array.
+     *
+     * @return array
+     */
     public function parse(): array
     {
         return [
@@ -60,7 +79,7 @@ class Issue
             'title'    => $this->title,
             'body'     => Markdown::defaultTransform($this->body),
             'url'      => $this->html_url,
-            'assignee' => isset($this->assigne) && !empty($this->assigne)
+            'assignee' => isset($this->assignee) && !empty($this->assignee)
                 ? $this->assignee['avatar_url'] . '?s=16'
                 : null,
             'paused'   => $this->isPaused(),
@@ -71,5 +90,4 @@ class Issue
             'closed'   => $this->closed_at
         ];
     }
-
 }

@@ -35,6 +35,7 @@ final class BoardService
 
     public function getBoard()
     {
+        // TODO refactor
         $milestones = [];
         foreach ($this->repositories as $repository) {
             foreach ($this->githubService->getMilestones($repository) as $milestone) {
@@ -45,13 +46,14 @@ final class BoardService
 
         ksort($milestones);
 
+        $parsedMilestones = [];
         foreach ($milestones as $name => $milestone)
         {
             $issues = $this->getAndPrepareIssues($milestone['repository'], $milestone['number']);
             $percent = Milestone::getCompletionPercentage($milestone['closed_issues'], $milestone['open_issues']);
             if($percent)
             {
-                $milestones[] = array(
+                $parsedMilestones[] = array(
                     'milestone' => $name,
                     'url' => $milestone['html_url'],
                     'progress' => $percent,
@@ -62,9 +64,17 @@ final class BoardService
             }
         }
 
-        return $milestones;
+        return $parsedMilestones;
     }
 
+    /**
+     * Retrieves milestone issues from GitHub API and parses them.
+     *
+     * @param  string $repository
+     * @param  int    $milestoneId
+     *
+     * @return array
+     */
     private function getAndPrepareIssues(string $repository, int $milestoneId): array
     {
         $issues = $this->githubService->getIssuesToMilestone($repository, $milestoneId);
@@ -74,6 +84,13 @@ final class BoardService
         return $parsedIssues;
     }
 
+    /**
+     * Parses array of milestone issues.
+     *
+     * @param  array $issues
+     *
+     * @return array
+     */
     private function parseIssues(array $issues): array
     {
         $parsed = [];
@@ -91,6 +108,13 @@ final class BoardService
         return $parsed;
     }
 
+    /**
+     * Sorts issues using reference.
+     *
+     * @param  array $issues
+     *
+     * @return void
+     */
     private function sortIssues(array &$issues): void
     {
         $canSort = $issues['queued'] ?? false;

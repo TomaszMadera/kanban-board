@@ -10,6 +10,7 @@ class BoardController extends Controller
 
     public function __construct()
     {
+        /* Should be DI, but I've decided not to implement it and not to get it from composer for this app. */
         $this->boardService = BoardService::getInstance();
     }
 
@@ -22,6 +23,6 @@ class BoardController extends Controller
     {
         $milestones = $this->boardService->getBoard();
 
-        $this->render('index', $milestones);
+        $this->render('index', ['milestones' => $milestones]);
     }
 }

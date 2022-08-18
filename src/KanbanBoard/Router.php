@@ -40,7 +40,7 @@ class Router
 
         if (!$action) {
             http_response_code(404);
-            exit();
+            DebugHelper::die('Action not found.');
         }
 
         if (is_callable($action)) {
@@ -53,8 +53,10 @@ class Router
             $reflection = new ReflectionClass($controller);
             $method = $reflection->getMethod($method);
 
+            /* Should be DI, but I've decided not to implement it and not to get it from composer for this app. */
             return $method->invoke($reflection->newInstance());
         } catch (ReflectionException $e) {
+            http_response_code(404);
             DebugHelper::printThrowable($e);
         }
     }

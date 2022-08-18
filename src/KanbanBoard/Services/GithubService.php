@@ -23,6 +23,10 @@ final class GithubService
         $this->authenticate();
     }
 
+    private function __clone()
+    {
+    }
+
     public static function getInstance(): GithubService
     {
         if (GithubService::$instance === null) {
@@ -32,6 +36,13 @@ final class GithubService
         return GithubService::$instance;
     }
 
+    /**
+     * Retrieves milestones from repository by its name.
+     *
+     * @param  string $repository
+     *
+     * @return array
+     */
     public function getMilestones(string $repository): array
     {
         $milestonesApi = $this->client->api('issues')->milestones();
@@ -39,6 +50,14 @@ final class GithubService
         return $milestonesApi->all($this->account, $repository);
     }
 
+    /**
+     * Retrieves milestone issues from repository by its name and milestone ID.
+     *
+     * @param  string $repository
+     * @param  int    $milestoneId
+     *
+     * @return array
+     */
     public function getIssuesToMilestone(string $repository, int $milestoneId): array
     {
         $issueParams = [
@@ -49,6 +68,11 @@ final class GithubService
         return $this->client->api('issue')->all($this->account, $repository, $issueParams);
     }
 
+    /**
+     * Authenticates GitHub user.
+     *
+     * @return void
+     */
     public function authenticate(): void
     {
         $authentication = new GithubAuthentication();

@@ -7,6 +7,7 @@ use KanbanBoard\Helpers\EnvironmentHelper;
 
 class GithubAuthentication
 {
+    // TODO refactor
 	private string $clientId;
 	private string $clientSecret;
 

@@ -11,8 +11,12 @@ final class DebugHelper
     {
     }
 
+    private function __clone()
+    {
+    }
+
     /**
-     * Pretties dumped data.
+     * Dumps and pretties dumped data.
      *
      * @param  mixed $data
      *
@@ -36,6 +40,22 @@ final class DebugHelper
     {
         if (isset($_ENV['DEBUG']) && $_ENV['DEBUG']) {
             die("Exception thrown in {$e->getFile()}, line {$e->getLine()}: {$e->getMessage()}");
+        } else {
+            die();
+        }
+    }
+
+    /**
+     * Stops application and prints given error message if DEBUG mode enabled.
+     *
+     * @param  string $message
+     *
+     * @return void
+     */
+    #[NoReturn] public static function die(string $message): void
+    {
+        if (isset($_ENV['DEBUG']) && $_ENV['DEBUG']) {
+            die($message);
         } else {
             die();
         }

@@ -17,6 +17,11 @@ class Application
 	{
 	}
 
+    /**
+     * Runs application instance and listens to requests.
+     *
+     * @return void
+     */
     public function run(): void
     {
         $this->router->resolve();

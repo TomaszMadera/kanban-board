@@ -2,8 +2,10 @@
 
 namespace KanbanBoard\Services;
 
+use Cache\Adapter\Filesystem\FilesystemCachePool;
 use Github\AuthMethod;
 use Github\Client as GithubClient;
+use KanbanBoard\Application;
 use KanbanBoard\Controllers\GithubAuthentication;
 use KanbanBoard\Helpers\EnvironmentHelper;
 
@@ -18,6 +20,10 @@ final class GithubService
     private function __construct()
     {
         $this->client = new GithubClient();
+        $pool = new FilesystemCachePool(Application::$application->filesystem);
+        $pool->setFolder('cache/tmp/github-api-cache');
+        $this->client->addCache($pool);
+
         $this->account = EnvironmentHelper::get('GH_ACCOUNT');
         $this->clientSecret = EnvironmentHelper::get('GH_CLIENT_SECRET');
         $this->authenticate();

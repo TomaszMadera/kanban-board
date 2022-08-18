@@ -21,7 +21,7 @@ final class GithubService
     {
         $this->client = new GithubClient();
         $pool = new FilesystemCachePool(Application::$application->filesystem);
-        $pool->setFolder('cache/tmp/github-api-cache');
+        $pool->setFolder('storage/cache/github-api-cache');
         $this->client->addCache($pool);
 
         $this->account = EnvironmentHelper::get('GH_ACCOUNT');

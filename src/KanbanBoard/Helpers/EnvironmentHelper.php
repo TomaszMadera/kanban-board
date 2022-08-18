@@ -22,7 +22,12 @@ final class EnvironmentHelper
      */
     public static function get(string $name, mixed $default = null): mixed
     {
-        $value = $_ENV[$name];
+        //try {
+            $value = $_ENV[$name];
+//        } catch (\RuntimeException $e) {
+//            DebugHelper::printThrowable($e);
+//        }
+
 
         if (empty($value)) {
             if (!is_null($default)) {

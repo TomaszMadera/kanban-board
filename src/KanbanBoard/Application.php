@@ -16,10 +16,10 @@ class Application
 
     public static Application $application;
 
-	public function __construct(public Router $router, public Filesystem $filesystem)
-	{
+    public function __construct(public Router $router, public Filesystem $filesystem)
+    {
         self::$application = $this;
-	}
+    }
 
     /**
      * Runs application instance and listens to requests.

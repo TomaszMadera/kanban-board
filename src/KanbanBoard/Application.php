@@ -2,6 +2,7 @@
 
 namespace KanbanBoard;
 
+use League\Flysystem\Filesystem;
 use vierbergenlars\SemVer\version;
 
 class Application
@@ -13,9 +14,12 @@ class Application
      */
     const VERSION = '2.0.0';
 
-	public function __construct(public Router $router)
-	{
-	}
+    public static Application $application;
+
+    public function __construct(public Router $router, public Filesystem $filesystem)
+    {
+        self::$application = $this;
+    }
 
     /**
      * Runs application instance and listens to requests.

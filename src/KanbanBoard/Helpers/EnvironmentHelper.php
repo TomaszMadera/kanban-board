@@ -8,7 +8,19 @@ final class EnvironmentHelper
     {
     }
 
-    public static function get(string $name, $default = null)
+    private function __clone()
+    {
+    }
+
+    /**
+     * Returns environment variable value.
+     *
+     * @param  string $name
+     * @param  mixed  $default
+     *
+     * @return mixed
+     */
+    public static function get(string $name, mixed $default = null): mixed
     {
         $value = $_ENV[$name];
 
@@ -16,7 +28,7 @@ final class EnvironmentHelper
             if (!is_null($default)) {
                 return $default;
             } else {
-                die('Environment variable ' . $name . ' not found or has no value');
+                DebugHelper::die('Environment variable ' . $name . ' not found or has no value');
             }
         }
 

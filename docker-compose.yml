@@ -16,7 +16,7 @@ services:
      - php
    image: nginx:latest
    volumes:
-     - ./centra-recruitment.conf:/etc/nginx/conf.d/default.conf
+     - ./centra-recruitment-docker.conf:/etc/nginx/conf.d/default.conf
      - ./src:/home/kanban-board
    ports:
      - "80:80"

@@ -5,15 +5,16 @@ namespace KanbanBoard\Controllers;
 use KanbanBoard\Helpers\ArrayHelper;
 use KanbanBoard\Helpers\EnvironmentHelper;
 
-class Authentication {
-
-	private $client_id;
-	private $client_secret;
+class GithubAuthentication
+{
+    // TODO refactor
+	private string $clientId;
+	private string $clientSecret;
 
 	public function __construct()
 	{
-		$this->client_id = EnvironmentHelper::get('GH_CLIENT_ID');
-		$this->client_secret = EnvironmentHelper::get('GH_CLIENT_SECRET');
+		$this->clientId = EnvironmentHelper::get('GH_CLIENT_ID');
+		$this->clientSecret = EnvironmentHelper::get('GH_CLIENT_SECRET');
 	}
 
 	public function logout()
@@ -48,7 +49,7 @@ class Authentication {
 	private function _redirectToGithub()
 	{
 		$url = 'Location: https://github.com/login/oauth/authorize';
-		$url .= '?client_id=' . $this->client_id;
+		$url .= '?client_id=' . $this->clientId;
 		$url .= '&scope=repo';
 		$url .= '&state=LKHYgbn776tgubkjhk';
 		header($url);
@@ -61,8 +62,8 @@ class Authentication {
 		$data = array(
 			'code' => $code,
 			'state' => 'LKHYgbn776tgubkjhk',
-			'client_id' => $this->client_id,
-			'client_secret' => $this->client_secret);
+			'client_id' => $this->clientId,
+			'client_secret' => $this->clientSecret);
 		$options = array(
 			'http' => array(
 				'method' => 'POST',

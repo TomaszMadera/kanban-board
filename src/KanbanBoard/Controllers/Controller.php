@@ -2,6 +2,7 @@
 
 namespace KanbanBoard\Controllers;
 
+use JetBrains\PhpStorm\NoReturn;
 use KanbanBoard\Helpers\DebugHelper;
 use Mustache_Engine;
 use Mustache_Exception_UnknownTemplateException;
@@ -32,6 +33,19 @@ abstract class Controller
         } catch (Mustache_Exception_UnknownTemplateException $e) {
             DebugHelper::printThrowable($e);
         }
+    }
+
+    /**
+     * Redirects to given url.
+     *
+     * @param  string $page
+     *
+     * @return void
+     */
+    #[NoReturn] public function redirectTo(string $page): void
+    {
+        header("Location: {$page}");
+        exit();
     }
 
     /**

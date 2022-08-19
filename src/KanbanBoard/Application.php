@@ -16,7 +16,7 @@ class Application
      *
      * @var string
      */
-    const VERSION = '2.2.1';
+    public const VERSION = '2.3.0';
 
     public static Application $application;
 

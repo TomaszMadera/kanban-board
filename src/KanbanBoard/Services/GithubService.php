@@ -6,7 +6,7 @@ use Cache\Adapter\Filesystem\FilesystemCachePool;
 use Github\AuthMethod;
 use Github\Client as GithubClient;
 use KanbanBoard\Application;
-use KanbanBoard\Controllers\GithubAuthentication;
+use KanbanBoard\Controllers\GithubAuthenticationController;
 use KanbanBoard\Helpers\EnvironmentHelper;
 
 final class GithubService
@@ -69,7 +69,7 @@ final class GithubService
 
         foreach ($repositories as $repository) {
             foreach ($this->getMilestones($repository) as $milestone) {
-                $milestones[$milestone['title']] = $milestone;
+                $milestones[$milestone['title']]               = $milestone;
                 $milestones[$milestone['title']]['repository'] = $repository;
             }
         }
@@ -91,7 +91,7 @@ final class GithubService
     {
         $issueParams = [
             'milestone' => $milestoneId,
-            'state' => 'all'
+            'state'     => 'all'
         ];
 
         return $this->client->api('issue')->all($this->account, $repository, $issueParams);
@@ -104,7 +104,7 @@ final class GithubService
      */
     public function authenticate(): void
     {
-        $authentication = new GithubAuthentication();
+        $authentication = new GithubAuthenticationController();
         $token = $authentication->login();
 
         $this->client->authenticate(

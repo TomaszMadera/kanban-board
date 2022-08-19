@@ -9,9 +9,9 @@ use Monolog\Level;
 
 class Logger extends \Monolog\Logger
 {
-    const LOG_PATH = __DIR__ . '/../storage/log';
+    public const LOG_PATH = __DIR__ . '/../storage/log';
 
-    const ERROR_LOG_NAME = 'kanban-board-error';
+    public const ERROR_LOG_NAME = 'kanban-board-error';
 
     private static array $loggers = [];
 

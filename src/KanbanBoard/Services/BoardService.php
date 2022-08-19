@@ -86,7 +86,7 @@ final class BoardService
         $issues = $this->githubService->getIssuesToMilestone($repository, $milestoneId);
         $parsedIssues = $this->parseIssues($issues);
         $this->sortIssues($parsedIssues);
-        
+
         return $parsedIssues;
     }
 

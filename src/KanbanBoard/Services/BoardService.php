@@ -33,35 +33,41 @@ final class BoardService
         return BoardService::$instance;
     }
 
-    public function getBoard()
+    /**
+     * Returns board data.
+     *
+     * @return array
+     */
+    public function getBoard(): array
     {
-        // TODO refactor
-        $milestones = [];
-        foreach ($this->repositories as $repository) {
-            foreach ($this->githubService->getMilestones($repository) as $milestone) {
-                $milestones[$milestone['title']] = $milestone;
-                $milestones[$milestone['title']]['repository'] = $repository;
-            }
-        }
+        $milestones = $this->githubService->getMilestonesByRepositories($this->repositories);
 
-        ksort($milestones);
+        return $this->prepareMilestonesToDisplay($milestones);
+    }
 
+    /**
+     * Parses retrieved milestones to expected form.
+     *
+     * @param  array $milestones
+     *
+     * @return array
+     */
+    private function prepareMilestonesToDisplay(array $milestones): array
+    {
         $parsedMilestones = [];
-        foreach ($milestones as $name => $milestone)
-        {
+
+        foreach ($milestones as $name => $milestone) {
             $issues = $this->getAndPrepareIssues($milestone['repository'], $milestone['number']);
             $percent = Milestone::getCompletionPercentage($milestone['closed_issues'], $milestone['open_issues']);
-            if($percent)
-            {
-                $parsedMilestones[] = array(
-                    'milestone' => $name,
-                    'url' => $milestone['html_url'],
-                    'progress' => $percent,
-                    'queued' => $issues['queued'] ?? [],
-                    'active' => $issues['active'] ?? [],
-                    'completed' => $issues['completed'] ?? []
-                );
-            }
+
+            $parsedMilestones[] = [
+                'milestone' => $name,
+                'url' => $milestone['html_url'],
+                'progress' => $percent,
+                'queued' => $issues['queued'] ?? [],
+                'active' => $issues['active'] ?? [],
+                'completed' => $issues['completed'] ?? []
+            ];
         }
 
         return $parsedMilestones;

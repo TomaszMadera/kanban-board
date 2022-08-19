@@ -57,6 +57,29 @@ final class GithubService
     }
 
     /**
+     * Retrieve milestones by given repository names.
+     *
+     * @param  array $repositories
+     *
+     * @return array
+     */
+    public function getMilestonesByRepositories(array $repositories): array
+    {
+        $milestones = [];
+
+        foreach ($repositories as $repository) {
+            foreach ($this->getMilestones($repository) as $milestone) {
+                $milestones[$milestone['title']] = $milestone;
+                $milestones[$milestone['title']]['repository'] = $repository;
+            }
+        }
+
+        ksort($milestones);
+
+        return $milestones;
+    }
+
+    /**
      * Retrieves milestone issues from repository by its name and milestone ID.
      *
      * @param  string $repository

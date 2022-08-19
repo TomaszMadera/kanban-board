@@ -24,8 +24,7 @@ class GithubAuthentication
 
 	public function login()
 	{
-		session_start();
-		$token = NULL;
+		$token = null;
 		if(array_key_exists('gh-token', $_SESSION)) {
 			$token = $_SESSION['gh-token'];
 		}
